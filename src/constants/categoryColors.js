@@ -1,0 +1,16 @@
+export const CATEGORY_COLORS = [
+  { green: "#4CAF50" },
+  { blue: "#2196F3" },
+  { pink: "#E91E63" },
+  { orange: "#FF9800" },
+  { purple: "#9C27B0" },
+  { red: "#F44336" },
+  { teal: "#009688" },
+  { indigo: "#3F51B5" },
+  { yellow: "#FFEB3B" },
+  { brown: "#795548" },
+  { gray: "#9E9E9E" },
+  { lime: "#CDDC39" },
+  { cyan: "#00BCD4" },
+  { deepOrange: "#FF5722" },
+];
