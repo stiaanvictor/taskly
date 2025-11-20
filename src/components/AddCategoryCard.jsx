@@ -10,7 +10,7 @@ function AddCategoryCard() {
 
   return (
     <div
-      className="bg-white w-40 h-40 rounded-xl flex justify-center items-center border-primary border-[3px] hover:bg-gray-100 hover:cursor-pointer"
+      className="flex h-40 w-40 items-center justify-center rounded-xl border-[3px] border-primary bg-white shadow-lg hover:cursor-pointer hover:bg-gray-100"
       onClick={handleClick}
     >
       <Plus className="text-primary" size={40} />

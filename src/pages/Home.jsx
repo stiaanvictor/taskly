@@ -1,14 +1,15 @@
 import { ArrowRightFromLine, Menu } from "lucide-react";
 import { useSidebar } from "../context/SidebarContext";
-import LeftSidebar from "../component/LeftSidebar";
-import AllTasksSection from "../component/AllTasksSection";
-import ViewTask from "../component/ViewTask";
+import LeftSidebar from "../components/LeftSidebar";
+import AllTasksSection from "../components/AllTasksSection";
+import ViewTask from "../components/ViewTask";
+import FloatingNewTaskButton from "../components/FloatingNewTaskButton";
 
 export default function Home() {
   const { openSidebar } = useSidebar();
 
   return (
-    <div className="px-2 py-2 bg-gray-100 min-h-dvh">
+    <div className="min-h-dvh bg-gray-100 px-2 py-2 pb-32">
       <Menu size={32} onClick={openSidebar} className="text-primary" />
 
       <LeftSidebar />
@@ -16,6 +17,8 @@ export default function Home() {
       <ViewTask />
 
       <AllTasksSection />
+
+      <FloatingNewTaskButton />
     </div>
   );
 }

@@ -3,27 +3,33 @@
 }
 
 /* =======================
-   ROOT
+   ROOT CONTAINER
    ======================= */
 .main-calendar {
     height: 500px;
     padding: 20px;
-    background-color: white;
+    background-color: #fff;
     border-radius: 30px;
     margin-top: 30px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
 }
 
-
 /* =======================
-   CONTROLS / TOOLBAR
+   TOOLBAR
    ======================= */
 .main-calendar .rbc-toolbar {
-    background-color: transparent;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .main-calendar .rbc-toolbar-label {
-    font-size: 1.2rem;
-    margin-top: 15px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 10px;
+    color: #333;
 }
 
 .main-calendar .rbc-btn-group {
@@ -32,94 +38,108 @@
 }
 
 .main-calendar .rbc-btn-group button {
-    color: white;
+    color: #fff;
     background-color: var(--primary);
     border: 1px solid var(--primary);
-    margin-left: 5px;
-    margin-right: 5px;
-    border-radius: 15px !important;
+    margin: 0 5px;
+    padding: 5px 14px;
+    border-radius: 12px !important;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.main-calendar .rbc-btn-group button:hover {
+    opacity: 0.9;
 }
 
 .main-calendar .rbc-btn-group button:active {
+    background-color: #fff;
     color: var(--primary);
-    border: 1px solid var(--primary);
-    background: white;
+    border-color: var(--primary);
 }
-
 
 /* =======================
    MONTH VIEW
    ======================= */
 .main-calendar .rbc-month-view {
     border-radius: 20px;
+    border: none;
+    overflow: hidden;
 }
 
-.main-calendar .rbc-month-header {
-    
-}
-
+/* Header (weekdays row) */
 .main-calendar .rbc-header {
-    font-weight: 200;
+    font-weight: 500;
+    padding: 10px 0;
+    color: #555;
+    background-color: #f9f9f9;
 }
-
-.main-calendar .rbc-month-row {
-
-}
-
 
 /* =======================
    DATE CELLS
    ======================= */
-.main-calendar .rbc-row-content {
-    
-}
-
 .main-calendar .rbc-date-cell {
     text-align: center;
+    font-size: 0.9rem;
+    padding-top: 4px;
 }
 
 .main-calendar .rbc-off-range {
-
+    color: #bfbfbf;
 }
 
 .main-calendar .rbc-off-range-bg {
+    background: #fafafa;
 }
 
+/* Today highlight */
 .main-calendar .rbc-today {
-    background: rgb(228, 228, 228);
+    background: #eaeaea;
 }
 
-.main-calendar .rbc-date-cell.rbc-now,
-.main-calendar .rbc-date-cell.rbc-today,
-.main-calendar .rbc-now > span,
-.main-calendar .rbc-today > span {
-    font-weight: 600;
+.main-calendar 
+.rbc-date-cell.rbc-now,
+.main-calendar 
+.rbc-date-cell.rbc-today,
+.main-calendar 
+.rbc-now > span,
+.main-calendar 
+.rbc-today > span {
+    font-weight: 700;
+    color: var(--primary);
 }
 
+/* Event styling (optional but looks much better) */
+.main-calendar .rbc-event {
+    background: var(--primary);
+    color: white;
+    border-radius: 10px;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+}
+
+.main-calendar .rbc-event:hover {
+    opacity: 0.85;
+}
 
 /* =======================
    WEEK / DAY VIEW
    ======================= */
-.main-calendar .rbc-time-view {
-
+.main-calendar .rbc-time-view,
+.main-calendar .rbc-time-header,
+.main-calendar .rbc-time-content {
+    border: none;
 }
 
 .main-calendar .rbc-time-gutter {
-
-}
-
-.main-calendar .rbc-time-header {
-
-}
-
-.main-calendar .rbc-time-content {
-
-}
-
-.main-calendar .rbc-time-slot {
-
+    background: #f9f9f9;
+    color: #555;
 }
 
 .main-calendar .rbc-time-column {
+    border-left: none;
+}
 
+.main-calendar .rbc-time-slot {
+    border-top: 1px solid #efefef;
 }

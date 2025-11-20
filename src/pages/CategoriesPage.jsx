@@ -1,8 +1,8 @@
 import { Menu } from "lucide-react";
 import { useSidebar } from "../context/SidebarContext";
-import LeftSidebar from "../component/LeftSidebar";
-import CategoryCard from "../component/CategoryCard";
-import CategoriesSection from "../component/CategoriesSection";
+import LeftSidebar from "../components/LeftSidebar";
+import CategoryCard from "../components/CategoryCard";
+import CategoriesSection from "../components/CategoriesSection";
 import { useEffect, useState } from "react";
 
 function CategoriesPage() {
@@ -107,9 +107,9 @@ function CategoriesPage() {
   }, []);
 
   return (
-    <div className="px-3 py-3 bg-gray-100 min-h-dvh">
+    <div className="min-h-dvh bg-gray-100 px-3 py-3">
       <Menu size={32} onClick={openSidebar} className="text-primary" />
-      <h1 className="mt-2 text-3xl text-text text-center">Categories:</h1>
+      <h1 className="mt-2 text-center text-3xl text-text">Categories:</h1>
 
       <CategoriesSection tasks={tasks} categories={categories} />
 

@@ -23,7 +23,7 @@ function DaySection({ date, tasks, categories, filters }) {
       {filteredTasks.length > 0 && (
         <>
           <h3 className="text-xl">{formattedDate}</h3>
-          <div className="h-1 bg-primary rounded-full mt-1"></div>
+          <div className="mt-1 h-1 rounded-full bg-primary shadow-sm"></div>
         </>
       )}
 

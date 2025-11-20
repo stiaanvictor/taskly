@@ -7,19 +7,19 @@ function CategoryCard({ categoryId, name, color, tasks }) {
 
   useEffect(() => {
     const tasksForCategory = tasks.filter(
-      (task) => task.categoryId === categoryId
+      (task) => task.categoryId === categoryId,
     );
 
     const tasksCompleted = tasksForCategory.filter(
-      (task) => task.done === true
+      (task) => task.done === true,
     );
 
     const tasksInProgress = tasksForCategory.filter(
-      (task) => new Date() < new Date(task.dueDate) && task.done === false
+      (task) => new Date() < new Date(task.dueDate) && task.done === false,
     );
 
     const tasksOverdue = tasksForCategory.filter(
-      (task) => new Date() > new Date(task.dueDate) && task.done === false
+      (task) => new Date() > new Date(task.dueDate) && task.done === false,
     );
 
     setCompleted(tasksCompleted.length);
@@ -33,12 +33,12 @@ function CategoryCard({ categoryId, name, color, tasks }) {
 
   return (
     <div
-      className="bg-primary w-40 h-40 py-2 px-2 rounded-xl hover:cursor-pointer transition hover:brightness-90"
+      className="h-40 w-40 rounded-xl bg-primary px-2 py-2 shadow-lg transition hover:cursor-pointer hover:brightness-90"
       onClick={handleClick}
       style={{ background: color }}
     >
-      <h1 className="text-white text-xl text-center">{name}</h1>
-      <h2 className="text-white mt-2">Completed: {completed}</h2>
+      <h1 className="text-center text-xl text-white">{name}</h1>
+      <h2 className="mt-2 text-white">Completed: {completed}</h2>
       <h2 className="text-white">In Progress: {inProgress}</h2>
       <h2 className="text-white">Overdue: {overdue}</h2>
     </div>

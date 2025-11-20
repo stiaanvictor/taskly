@@ -1,10 +1,10 @@
 import { Menu } from "lucide-react";
-import LeftSidebar from "../component/LeftSidebar";
+import LeftSidebar from "../components/LeftSidebar";
 import { useSidebar } from "../context/SidebarContext";
 
-import MainCalendar from "../component/MainCalendar";
+import MainCalendar from "../components/MainCalendar";
 import { useEffect, useState } from "react";
-import TasksForDateSection from "../component/TasksForDateSection";
+import TasksForDateSection from "../components/TasksForDateSection";
 
 function CalendarPage() {
   const { openSidebar } = useSidebar();
@@ -109,7 +109,7 @@ function CalendarPage() {
   }, []);
 
   return (
-    <div className="px-2 py-2 bg-gray-100 h-dvh">
+    <div className="h-dvh bg-gray-100 px-2 py-2">
       <Menu size={32} onClick={openSidebar} className="text-primary" />
 
       <LeftSidebar />

@@ -7,19 +7,19 @@ function TaskCard({ id, text, priority = "none", done = false, color }) {
 
   return (
     <div
-      className="flex bg-gray-50 rounded-2xl border-borders mt-3 border justify-between pr-3 hover:bg-blue-50 hover:cursor-pointer"
+      className="mt-3 flex justify-between rounded-2xl border border-borders bg-gray-50 pr-3 shadow-md hover:cursor-pointer hover:bg-blue-50"
       onClick={() => openTask(id)}
     >
       <div className="flex">
         <div className="w-5" style={{ background: color }}></div>
-        <p className="text-lg ml-2 py-1">{text}</p>
+        <p className="ml-2 py-1 text-lg">{text}</p>
       </div>
       {done ? (
         <p>
           <Check className="text-success" strokeWidth={3} size={27} />
         </p>
       ) : priority === "important" ? (
-        <p className="font-bold text-2xl text-attention pr-2">!</p>
+        <p className="pr-2 text-2xl font-bold text-attention">!</p>
       ) : (
         ""
       )}
