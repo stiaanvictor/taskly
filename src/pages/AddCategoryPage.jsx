@@ -4,7 +4,7 @@ import { useSidebar } from "../context/SidebarContext";
 
 import ColorSelectorModal from "../components/ColorSelectorModal";
 import LeftSidebar from "../components/LeftSidebar";
-import CategoryForm from "../components/CategoryForm"; // ← new import
+import CategoryForm from "../components/CategoryForm";
 
 function AddCategoryPage() {
   const { openSidebar } = useSidebar();
@@ -12,8 +12,12 @@ function AddCategoryPage() {
   const [selectedColor, setSelectedColor] = useState("none");
 
   return (
-    <div className="min-h-dvh bg-gray-100 px-4 py-4">
-      <Menu size={32} onClick={openSidebar} className="text-primary" />
+    <div className="min-h-dvh bg-gray-100 px-4 py-4 dark:bg-[#0a0f1c]">
+      <Menu
+        size={32}
+        onClick={openSidebar}
+        className="text-primary dark:text-white lg:hidden"
+      />
 
       <CategoryForm
         selectedColor={selectedColor}

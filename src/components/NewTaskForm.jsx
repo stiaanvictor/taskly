@@ -14,7 +14,7 @@ function NewTaskForm() {
           <input
             type="text"
             placeholder="Task title"
-            className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-lg font-semibold outline-none transition focus:ring-2 focus:ring-primary"
+            className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-lg outline-none transition focus:ring-2 focus:ring-primary"
           />
         </div>
 

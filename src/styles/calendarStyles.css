@@ -10,9 +10,14 @@
     padding: 20px;
     background-color: #fff;
     border-radius: 30px;
-    margin-top: 30px;
     box-shadow: 0 6px 15px rgba(0,0,0,0.08);
     overflow: hidden;
+}
+
+/* 🌙 Dark mode */
+.dark .main-calendar {
+    background-color: #1e293b; /* slate-800 */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
 
 /* =======================
@@ -30,6 +35,10 @@
     font-weight: 600;
     margin-top: 10px;
     color: #333;
+}
+
+.dark .main-calendar .rbc-toolbar-label {
+    color: #fff;
 }
 
 .main-calendar .rbc-btn-group {
@@ -58,6 +67,18 @@
     border-color: var(--primary);
 }
 
+/* Dark mode buttons */
+.dark .main-calendar .rbc-btn-group button {
+    color: #fff;
+    background-color: #3b82f6; /* blue-500 */
+    border-color: #3b82f6;
+}
+
+.dark .main-calendar .rbc-btn-group button:active {
+    background-color: #1e293b;
+    color: #3b82f6;
+}
+
 /* =======================
    MONTH VIEW
    ======================= */
@@ -75,6 +96,12 @@
     background-color: #f9f9f9;
 }
 
+/* 🌙 Dark */
+.dark .main-calendar .rbc-header {
+    background-color: #0f172a; /* slate-900 */
+    color: #e2e8f0;           /* slate-200 */
+}
+
 /* =======================
    DATE CELLS
    ======================= */
@@ -88,13 +115,26 @@
     color: #bfbfbf;
 }
 
+.dark .main-calendar .rbc-off-range {
+    color: #475569; /* slate-600 */
+}
+
 .main-calendar .rbc-off-range-bg {
     background: #fafafa;
+}
+
+.dark .main-calendar .rbc-off-range-bg {
+    background: #1e293b;
 }
 
 /* Today highlight */
 .main-calendar .rbc-today {
     background: #eaeaea;
+}
+
+.dark .main-calendar .rbc-today {
+    background: #334155; /* slate-700 */
+    color: white;
 }
 
 .main-calendar 
@@ -106,10 +146,27 @@
 .main-calendar 
 .rbc-today > span {
     font-weight: 700;
-    color: var(--primary);
 }
 
-/* Event styling (optional but looks much better) */
+.dark .main-calendar .rbc-date-cell {
+    color: #fff;
+}
+
+/* Today stays white + bold */
+.dark .main-calendar .rbc-today,
+.dark .main-calendar .rbc-date-cell.rbc-today {
+    color: #fff !important;
+    font-weight: 700;
+}
+
+/* Off-range dates (previous / next month) → softer gray */
+.dark .main-calendar .rbc-off-range {
+    color: #94a3b8; /* slate-400 */
+}
+
+/* =======================
+   EVENTS
+   ======================= */
 .main-calendar .rbc-event {
     background: var(--primary);
     color: white;
@@ -120,6 +177,12 @@
 
 .main-calendar .rbc-event:hover {
     opacity: 0.85;
+}
+
+/* Dark mode events */
+.dark .main-calendar .rbc-event {
+    background: #3b82f6; /* blue-500 */
+    color: white;
 }
 
 /* =======================
@@ -136,10 +199,19 @@
     color: #555;
 }
 
+.dark .main-calendar .rbc-time-gutter {
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
 .main-calendar .rbc-time-column {
     border-left: none;
 }
 
 .main-calendar .rbc-time-slot {
     border-top: 1px solid #efefef;
+}
+
+.dark .main-calendar .rbc-time-slot {
+    border-top: 1px solid #334155;
 }

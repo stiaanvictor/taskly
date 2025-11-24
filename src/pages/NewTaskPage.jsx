@@ -6,8 +6,12 @@ import { useSidebar } from "../context/SidebarContext";
 function NewTaskPage() {
   const { openSidebar } = useSidebar();
   return (
-    <div className="min-h-dvh bg-gray-100 px-3 py-3 pb-32">
-      <Menu size={32} onClick={openSidebar} className="text-primary" />
+    <div className="min-h-dvh bg-gray-100 px-3 py-3 pb-32 lg:mt-16 lg:px-0 lg:py-2">
+      <Menu
+        size={32}
+        onClick={openSidebar}
+        className="text-primary lg:hidden"
+      />
 
       <LeftSidebar />
 

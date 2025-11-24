@@ -4,14 +4,14 @@ import { useState } from "react";
 
 function FilterModal({ setDisplayFilters, categories, filters, setFilters }) {
   const [selectedCategory, setSelectedCategory] = useState(
-    filters["categoryId"]
+    filters["categoryId"],
   );
   const [selectedPriority, setSelectedPriority] = useState(
-    filters["priorityType"]
+    filters["priorityType"],
   );
   const [selectedStatus, setSelectedStatus] = useState(filters["doneStatus"]);
   const [selectedShowOverdue, setSelectedShowOverdue] = useState(
-    filters["displayOverdue"]
+    filters["displayOverdue"],
   );
 
   const applyFilters = () => {
@@ -27,13 +27,13 @@ function FilterModal({ setDisplayFilters, categories, filters, setFilters }) {
   };
 
   return (
-    <div className="h-screen min-w-full fixed top-0 left-0 bg-white px-3 overflow-hidden">
+    <div className="fixed left-0 top-0 z-50 h-screen min-w-full overflow-hidden bg-white px-8 lg:left-1/2 lg:top-1/2 lg:h-auto lg:min-w-[500px] lg:max-w-[500px] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-xl lg:border-[1px] lg:border-borders lg:shadow-xl">
       <X
         size={38}
         onClick={() => setDisplayFilters(false)}
-        className="absolute right-6 top-6"
+        className="absolute right-6 top-6 text-text"
       />
-      <div className="pt-20">
+      <div className="pt-24 lg:pb-6 lg:pt-16">
         <h1 className="text-xl">Category:</h1>
         <Dropdown setValue={setSelectedCategory} value={selectedCategory}>
           <option value="all">All</option>
@@ -44,21 +44,21 @@ function FilterModal({ setDisplayFilters, categories, filters, setFilters }) {
           ))}
         </Dropdown>
 
-        <h1 className="text-xl mt-6">Priority:</h1>
+        <h1 className="mt-6 text-xl">Priority:</h1>
         <Dropdown setValue={setSelectedPriority} value={selectedPriority}>
           <option value="all">All</option>
           <option value="none">Normal</option>
           <option value="important">Important</option>
         </Dropdown>
 
-        <h1 className="text-xl mt-6">Status:</h1>
+        <h1 className="mt-6 text-xl">Status:</h1>
         <Dropdown setValue={setSelectedStatus} value={selectedStatus}>
           <option value="all">All</option>
           <option value="done">Done</option>
           <option value="incomplete">Incomplete</option>
         </Dropdown>
 
-        <h1 className="text-xl mt-6">Show Overdue Tasks:</h1>
+        <h1 className="mt-6 text-xl">Show Overdue Tasks:</h1>
         <Dropdown setValue={setSelectedShowOverdue} value={selectedShowOverdue}>
           <option value="yes">Yes</option>
           <option value="no">No</option>
@@ -66,7 +66,7 @@ function FilterModal({ setDisplayFilters, categories, filters, setFilters }) {
 
         <button
           onClick={applyFilters}
-          className="bg-primary text-white rounded-md px-2 py-1 text-lg mt-6"
+          className="mt-6 rounded-md bg-primary px-2 py-1 text-lg text-white"
         >
           Apply Filters
         </button>

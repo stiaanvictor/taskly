@@ -9,6 +9,7 @@ import AddCategoryPage from "./pages/AddCategoryPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import NewTaskPage from "./pages/NewTaskPage";
+import ViewCategoryPage from "./pages/ViewCategoryPage";
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/new-task" element={<NewTaskPage />} />
+            <Route path="/category/:id" element={<ViewCategoryPage />} />
           </Routes>
         </ViewTaskProvider>
       </SidebarProvider>

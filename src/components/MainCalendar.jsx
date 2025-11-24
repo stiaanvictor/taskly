@@ -33,7 +33,7 @@ function MainCalendar({ setGlobalDate, tasks }) {
     }
 
     const dayTasks = tasks.filter(
-      (t) => new Date(t.dueDate).toDateString() === date.toDateString()
+      (t) => new Date(t.dueDate).toDateString() === date.toDateString(),
     );
 
     if (dayTasks.length === 0) {
@@ -53,10 +53,10 @@ function MainCalendar({ setGlobalDate, tasks }) {
     const now = new Date();
 
     const hasOverdue = dayTasks.some(
-      (t) => !t.done && new Date(t.dueDate) < now
+      (t) => !t.done && new Date(t.dueDate) < now,
     );
     const hasImportant = dayTasks.some(
-      (t) => t.priority === "important" && !t.done
+      (t) => t.priority === "important" && !t.done,
     );
     const allDone = dayTasks.every((t) => t.done);
 

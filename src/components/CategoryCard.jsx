@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CategoryCard({ categoryId, name, color, tasks }) {
   const [completed, setCompleted] = useState(null);
   const [inProgress, setInProgress] = useState(null);
   const [overdue, setOverdue] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const tasksForCategory = tasks.filter(
@@ -28,7 +31,7 @@ function CategoryCard({ categoryId, name, color, tasks }) {
   }, []);
 
   const handleClick = () => {
-    console.log("Category Clicked");
+    navigate(`/category/${categoryId}`);
   };
 
   return (

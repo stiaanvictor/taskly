@@ -20,10 +20,10 @@ function AllTasksSection() {
 
   useEffect(() => {
     const dummyCategories = [
-      { id: 1, name: "Personal", color: "#4CAF50" }, // green
-      { id: 2, name: "Work", color: "#2196F3" }, // blue
-      { id: 3, name: "Health", color: "#E91E63" }, // pink
-      { id: 4, name: "Finance", color: "#FF9800" }, // orange
+      { id: 1, name: "Personal", color: "#4CAF50" },
+      { id: 2, name: "Work", color: "#2196F3" },
+      { id: 3, name: "Health", color: "#E91E63" },
+      { id: 4, name: "Finance", color: "#FF9800" },
     ];
 
     const dummyTasks = [
@@ -122,70 +122,80 @@ function AllTasksSection() {
   const isPastDate = (d) => new Date(d) < new Date();
 
   return (
-    <div className="bg-white mx-5 mt-3 px-4 py-4 rounded-2xl">
-      <div className="flex justify-end pr-4">
-        <ListFilter
-          className="text-primary"
-          size={32}
-          onClick={filterClicked}
-        />
-        {displayFilters && (
-          <FilterModal
-            setDisplayFilters={setDisplayFilters}
-            categories={categories}
-            filters={filters}
-            setFilters={setFilters}
+    <div className="flex-1 pt-3 lg:flex lg:justify-center">
+      <div className="rounded-2xl bg-white px-4 py-4 text-black dark:bg-[#0f172a] dark:text-white lg:min-w-[60rem] lg:max-w-[60rem]">
+        <div className="flex justify-end pr-4">
+          <ListFilter
+            className="text-primary dark:text-white"
+            size={32}
+            onClick={filterClicked}
           />
+          {displayFilters && (
+            <FilterModal
+              setDisplayFilters={setDisplayFilters}
+              categories={categories}
+              filters={filters}
+              setFilters={setFilters}
+            />
+          )}
+        </div>
+
+        {tasks.filter((task) => isPastDate(task.dueDate)).length > 0 &&
+          filters.displayOverdue === "yes" && (
+            <h1 className="-mb-2 mt-2 text-xl text-error dark:text-red-400">
+              Overdue!
+            </h1>
+          )}
+
+        {dates.length > 0 ? (
+          dates.map((date) => {
+            if (isPastDate(date) && filters.displayOverdue) {
+              const tasksForDate = tasks.filter(
+                (task) => task.dueDate === date,
+              );
+              return (
+                <DaySection
+                  key={date}
+                  date={date}
+                  tasks={tasksForDate}
+                  categories={categories}
+                  filters={filters}
+                />
+              );
+            }
+          })
+        ) : (
+          <Loading />
+        )}
+
+        {tasks.filter((task) => isPastDate(task.dueDate)).length > 0 &&
+          filters.displayOverdue === "yes" && (
+            <h1 className="weight -mb-2 mt-8 text-xl text-primary dark:text-blue-300">
+              Not Overdue
+            </h1>
+          )}
+
+        {dates.length > 0 ? (
+          dates.map((date) => {
+            if (!isPastDate(date)) {
+              const tasksForDate = tasks.filter(
+                (task) => task.dueDate === date,
+              );
+              return (
+                <DaySection
+                  key={date}
+                  date={date}
+                  tasks={tasksForDate}
+                  categories={categories}
+                  filters={filters}
+                />
+              );
+            }
+          })
+        ) : (
+          <Loading />
         )}
       </div>
-
-      {tasks.filter((task) => isPastDate(task.dueDate)).length > 0 &&
-        filters.displayOverdue === "yes" && (
-          <h1 className="text-xl text-error mt-2 -mb-2">Overdue!</h1>
-        )}
-      {dates.length > 0 ? (
-        dates.map((date) => {
-          if (isPastDate(date) && filters.displayOverdue) {
-            const tasksForDate = tasks.filter((task) => task.dueDate === date);
-            return (
-              <DaySection
-                key={date}
-                date={date}
-                tasks={tasksForDate}
-                categories={categories}
-                filters={filters}
-              />
-            );
-          }
-        })
-      ) : (
-        <Loading />
-      )}
-
-      {tasks.filter((task) => isPastDate(task.dueDate)).length > 0 &&
-        filters.displayOverdue === "yes" && (
-          <h1 className="text-xl text-primary mt-8 -mb-2 weight">
-            Not Overdue
-          </h1>
-        )}
-      {dates.length > 0 ? (
-        dates.map((date) => {
-          if (!isPastDate(date)) {
-            const tasksForDate = tasks.filter((task) => task.dueDate === date);
-            return (
-              <DaySection
-                key={date}
-                date={date}
-                tasks={tasksForDate}
-                categories={categories}
-                filters={filters}
-              />
-            );
-          }
-        })
-      ) : (
-        <Loading />
-      )}
     </div>
   );
 }

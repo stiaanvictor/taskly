@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TaskCard from "./TaskCard";
 import { format, isToday } from "date-fns";
 
-function DaySection({ date, tasks, categories, filters }) {
+function DaySection({ date, tasks, categories, filters, displayColor = true }) {
   const filteredTasks = tasks.filter((task) => {
     return (
       (filters.categoryId === "all" || filters.categoryId == task.categoryId) &&
@@ -35,6 +35,7 @@ function DaySection({ date, tasks, categories, filters }) {
           priority={task.priority}
           done={task.done}
           color={categories.find((c) => c.id === task.categoryId)["color"]}
+          displayColor={displayColor}
         />
       ))}
     </div>

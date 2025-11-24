@@ -7,20 +7,23 @@ function NavBar() {
   const location = useLocation();
 
   return (
-    <nav className="flex items-center justify-between bg-primary px-5 py-2">
-      {location.pathname === "/login" || location.pathname === "/signup" ? (
-        <div className="h-12 w-12"></div>
-      ) : (
-        <img
-          src={myImage}
-          alt=""
-          className="h-12 w-12 rounded-full object-cover"
-        />
-      )}
+    <div className="lg:fixed lg:top-0 lg:w-full">
+      <nav className="dark:bg-dark-primary flex items-center justify-between bg-primary px-5 py-2 text-white lg:h-16">
+        {location.pathname === "/login" || location.pathname === "/signup" ? (
+          <div className="h-12 w-12"></div>
+        ) : (
+          <img
+            src={myImage}
+            alt=""
+            className="dark:border-dark-background h-12 w-12 rounded-full border-2 border-background object-cover"
+          />
+        )}
 
-      <img src={logo} alt="" className="h-10 object-contain" />
-      <ThemeToggle />
-    </nav>
+        <img src={logo} alt="logo" className="h-10 object-contain" />
+
+        <ThemeToggle />
+      </nav>
+    </div>
   );
 }
 

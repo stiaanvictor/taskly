@@ -1,14 +1,14 @@
+import { useParams } from "react-router-dom";
+import TasksForCategorySection from "../components/TasksForCategorySection";
+import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 import LeftSidebar from "../components/LeftSidebar";
 import { useSidebar } from "../context/SidebarContext";
 
-import MainCalendar from "../components/MainCalendar";
-import { useEffect, useState } from "react";
-import TasksForDateSection from "../components/TasksForDateSection";
-
-function CalendarPage() {
+function ViewCategoryPage() {
+  const { id } = useParams();
   const { openSidebar } = useSidebar();
-  const [date, setDate] = useState(new Date());
+
   const [tasks, setTasks] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -24,7 +24,7 @@ function CalendarPage() {
       {
         id: 1,
         title: "Buy groceries",
-        description: "Pick up milk, eggs, and bread from the store.",
+        description: "Pick up milk, eggs, and bread.",
         dueDate: "2025-11-07",
         done: false,
         priority: "none",
@@ -33,7 +33,7 @@ function CalendarPage() {
       {
         id: 2,
         title: "Finish project report",
-        description: "Complete and review the final report.",
+        description: "Complete final report.",
         dueDate: "2025-11-11",
         done: false,
         priority: "important",
@@ -69,7 +69,7 @@ function CalendarPage() {
       {
         id: 6,
         title: "Submit tax documents",
-        description: "Upload all necessary files.",
+        description: "Upload all forms.",
         dueDate: "2025-11-24",
         done: false,
         priority: "important",
@@ -87,7 +87,7 @@ function CalendarPage() {
       {
         id: 8,
         title: "Read new book",
-        description: "Start reading the new book.",
+        description: "Start reading.",
         dueDate: "2025-12-01",
         done: false,
         priority: "none",
@@ -109,7 +109,7 @@ function CalendarPage() {
   }, []);
 
   return (
-    <div className="min-h-dvh bg-gray-100 px-3 py-5 pb-32 dark:bg-[#0a0f1c] lg:mt-16 lg:py-3 lg:pl-48">
+    <div className="min-h-dvh bg-gray-100 px-3 py-5 pb-32 dark:bg-[#0a0f1c] lg:mt-16 lg:py-3">
       <Menu
         size={32}
         onClick={openSidebar}
@@ -118,21 +118,15 @@ function CalendarPage() {
 
       <LeftSidebar />
 
-      <div className="lg:flex lg:gap-8 lg:pr-4">
-        <div className="mt-6 lg:flex-1">
-          <MainCalendar setGlobalDate={setDate} tasks={tasks} />
-        </div>
-
-        <div className="lg:w-[400px]">
-          <TasksForDateSection
-            date={date}
-            tasks={tasks}
-            categories={categories}
-          />
-        </div>
+      <div className="mt-4">
+        <TasksForCategorySection
+          categoryId={id}
+          categories={categories}
+          tasks={tasks}
+        />
       </div>
     </div>
   );
 }
 
-export default CalendarPage;
+export default ViewCategoryPage;

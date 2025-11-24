@@ -14,6 +14,15 @@ export default {
         violet: "#8B5CF6",
         borders: "#E5E7EB",
         disabled: "#6b6b6b",
+
+        /* 🌙 Dark Mode Colors */
+        dark: {
+          primary: "#1E3A8A", // deep blue
+          background: "#0A0F1C", // almost-black blue
+          surface: "#111827", // slate-900
+          text: "#fff", // gray-200
+          borders: "#1F2937", // dark borders
+        },
       },
     },
   },

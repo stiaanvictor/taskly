@@ -11,11 +11,11 @@ function TasksForDateSection({ date, tasks, categories }) {
     setTasksForDate(
       tasks.filter((task) => isSameDay(new Date(task.dueDate), new Date(date))),
     );
-  }, [date]);
+  }, [date, tasks]);
 
   if (tasksForDate.length < 1) {
     return (
-      <div className="mt-6 rounded-lg bg-white px-4 py-2">
+      <div className="mt-6 rounded-lg bg-white px-4 py-2 text-black dark:bg-[#1e293b] dark:text-white lg:rounded-xl">
         <h1 className="text-lg">
           Tasks for: {format(date, "EEEE, d MMMM yyyy")}:
         </h1>
@@ -23,11 +23,13 @@ function TasksForDateSection({ date, tasks, categories }) {
       </div>
     );
   }
+
   return (
-    <div className="mt-6 rounded-lg bg-white px-4 py-2 pb-6">
+    <div className="mt-6 rounded-lg bg-white px-4 py-2 pb-6 text-black dark:bg-[#1e293b] dark:text-white lg:rounded-xl">
       <h1 className="text-lg">
         Tasks for: {format(date, "EEEE, d MMMM yyyy")}:
       </h1>
+
       {tasksForDate.map((task) => (
         <TaskCard
           key={task.id}
@@ -35,9 +37,10 @@ function TasksForDateSection({ date, tasks, categories }) {
           text={task.title}
           priority={task.priority}
           done={task.done}
-          color={categories.find((c) => c.id === task.categoryId)["color"]}
+          color={categories.find((c) => c.id === task.categoryId).color}
         />
       ))}
+
       <ViewTask />
     </div>
   );

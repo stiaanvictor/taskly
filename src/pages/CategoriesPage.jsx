@@ -12,17 +12,17 @@ function CategoriesPage() {
 
   useEffect(() => {
     const dummyCategories = [
-      { id: 1, name: "Personal", color: "#4CAF50" }, // green
-      { id: 2, name: "Work", color: "#2196F3" }, // blue
-      { id: 3, name: "Health", color: "#E91E63" }, // pink
-      { id: 4, name: "Finance", color: "#FF9800" }, // orange
+      { id: 1, name: "Personal", color: "#4CAF50" },
+      { id: 2, name: "Work", color: "#2196F3" },
+      { id: 3, name: "Health", color: "#E91E63" },
+      { id: 4, name: "Finance", color: "#FF9800" },
     ];
 
     const dummyTasks = [
       {
         id: 1,
         title: "Buy groceries",
-        description: "Pick up milk, eggs, and bread from the store.",
+        description: "Pick up milk, eggs, and bread.",
         dueDate: "2025-11-07",
         done: false,
         priority: "none",
@@ -30,8 +30,8 @@ function CategoriesPage() {
       },
       {
         id: 2,
-        title: "Finish project report",
-        description: "Complete and review the final report before submission.",
+        title: "Finish report",
+        description: "Complete final submission.",
         dueDate: "2025-11-11",
         done: false,
         priority: "important",
@@ -40,7 +40,7 @@ function CategoriesPage() {
       {
         id: 3,
         title: "Call plumber",
-        description: "Fix the kitchen sink leak.",
+        description: "Fix sink leak.",
         dueDate: "2025-11-11",
         done: true,
         priority: "none",
@@ -49,7 +49,7 @@ function CategoriesPage() {
       {
         id: 4,
         title: "Team meeting",
-        description: "Discuss project progress and next steps with the team.",
+        description: "Discuss next steps.",
         dueDate: "2025-11-15",
         done: false,
         priority: "important",
@@ -58,7 +58,7 @@ function CategoriesPage() {
       {
         id: 5,
         title: "Doctor appointment",
-        description: "Routine checkup at the clinic.",
+        description: "Routine checkup.",
         dueDate: "2025-11-15",
         done: true,
         priority: "none",
@@ -67,7 +67,7 @@ function CategoriesPage() {
       {
         id: 6,
         title: "Submit tax documents",
-        description: "Upload all required tax forms before the deadline.",
+        description: "Upload all forms.",
         dueDate: "2025-11-24",
         done: false,
         priority: "important",
@@ -76,7 +76,7 @@ function CategoriesPage() {
       {
         id: 7,
         title: "Clean garage",
-        description: "Organize tools and sweep the floor.",
+        description: "Organize tools.",
         dueDate: "2025-11-24",
         done: true,
         priority: "none",
@@ -85,7 +85,7 @@ function CategoriesPage() {
       {
         id: 8,
         title: "Read new book",
-        description: "Start reading the book bought last week.",
+        description: "Start reading.",
         dueDate: "2025-12-01",
         done: false,
         priority: "none",
@@ -107,13 +107,17 @@ function CategoriesPage() {
   }, []);
 
   return (
-    <div className="min-h-dvh bg-gray-100 px-3 py-3">
-      <Menu size={32} onClick={openSidebar} className="text-primary" />
-      <h1 className="mt-2 text-center text-3xl text-text">Categories:</h1>
+    <div className="min-h-dvh bg-gray-100 px-2 py-2 pb-32 dark:bg-[#0a0f1c] lg:mt-16 lg:px-0 lg:py-4">
+      <Menu
+        size={32}
+        onClick={openSidebar}
+        className="text-primary dark:text-white lg:hidden"
+      />
 
-      <CategoriesSection tasks={tasks} categories={categories} />
-
-      <LeftSidebar />
+      <div className="flex">
+        <LeftSidebar />
+        <CategoriesSection tasks={tasks} categories={categories} />
+      </div>
     </div>
   );
 }
