@@ -12,7 +12,7 @@ function CategoriesSection({ tasks, categories }) {
           <CategoryCard
             key={category.id}
             categoryId={category.id}
-            name={category.name}
+            title={category.title}
             color={category.color}
             tasks={tasks}
           />

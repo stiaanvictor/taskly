@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import TaskCard from "./TaskCard";
 import Loading from "./Loading";
 import ViewTask from "./ViewTask";
 import DaySection from "./DaySection";
 import { Check, Edit, Pencil } from "lucide-react";
 import ColorSelectorModal from "./ColorSelectorModal";
+import { getTasksForCategory } from "../firebase/task.service";
 
 const defaultFilters = {
   categoryId: "all",
@@ -13,7 +13,7 @@ const defaultFilters = {
   displayOverdue: "yes",
 };
 
-function TasksForCategorySection({ categoryId, categories, tasks }) {
+function TasksForCategorySection({ categoryId, categories }) {
   const [category, setCategory] = useState(null);
   const [tasksForCategory, setTasksForCategory] = useState([]);
   const [dates, setDates] = useState([]);
@@ -24,14 +24,13 @@ function TasksForCategorySection({ categoryId, categories, tasks }) {
   const [selectedColor, setSelectedColor] = useState("");
 
   useEffect(() => {
-    setCategory(
-      categories.find((category) => category.id === Number(categoryId)),
-    );
+    setCategory(categories.find((category) => category.id === categoryId));
 
-    setTasksForCategory(
-      tasks.filter((task) => task.categoryId === Number(categoryId)),
-    );
-  }, [categories, categoryId, tasks]);
+    getTasksForCategory(categoryId, (tasks) => {
+      setTasksForCategory(tasks);
+      console.log(tasksForCategory);
+    });
+  }, [categories, categoryId]);
 
   useEffect(() => {
     setDates([...new Set(tasksForCategory.map((task) => task.dueDate))]);
@@ -52,7 +51,7 @@ function TasksForCategorySection({ categoryId, categories, tasks }) {
 
   const handleEdit = () => {
     setEditing(true);
-    setTitleEdit(category.name);
+    setTitleEdit(category.title);
     setSelectedColor(category.color);
   };
 
@@ -86,7 +85,7 @@ function TasksForCategorySection({ categoryId, categories, tasks }) {
               />
             ) : (
               <h1 className="text-3xl text-primary dark:text-blue-300">
-                {category.name}
+                {category.title}
               </h1>
             )}
 
@@ -105,30 +104,31 @@ function TasksForCategorySection({ categoryId, categories, tasks }) {
         <div>
           {tasksForCategory.filter((task) => isPastDate(task.dueDate)).length >
             0 && (
-            <h1 className="-mb-2 mt-2 text-xl text-error dark:text-red-400">
-              Overdue!
-            </h1>
-          )}
-
-          {dates.length > 0 ? (
-            dates.map((date) => {
-              if (isPastDate(date)) {
-                const tasksForDate = tasksForCategory.filter(
-                  (task) => task.dueDate === date,
-                );
-                return (
-                  <DaySection
-                    key={date}
-                    date={date}
-                    tasks={tasksForDate}
-                    categories={categories}
-                    filters={defaultFilters}
-                  />
-                );
-              }
-            })
-          ) : (
-            <Loading />
+            <div>
+              <h1 className="-mb-2 mt-2 text-xl text-error dark:text-red-400">
+                Overdue!
+              </h1>
+              {dates.length > 0 ? (
+                dates.map((date) => {
+                  if (isPastDate(date)) {
+                    const tasksForDate = tasksForCategory.filter(
+                      (task) => task.dueDate === date,
+                    );
+                    return (
+                      <DaySection
+                        key={date}
+                        date={date}
+                        tasks={tasksForDate}
+                        categories={categories}
+                        filters={defaultFilters}
+                      />
+                    );
+                  }
+                })
+              ) : (
+                <h1>You don't have any overdue tasks for this category</h1>
+              )}
+            </div>
           )}
 
           {tasksForCategory.filter((task) => isPastDate(task.dueDate)).length >
@@ -156,7 +156,9 @@ function TasksForCategorySection({ categoryId, categories, tasks }) {
               }
             })
           ) : (
-            <Loading />
+            <h1 className="mt-8 text-center">
+              You don't have any upcoming tasks for this category
+            </h1>
           )}
         </div>
 

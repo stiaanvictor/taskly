@@ -32,6 +32,7 @@ function AddCategoryPage() {
             selectedColor={selectedColor}
             setSelectedColor={setSelectedColor}
             setDisplaySelectColor={setDisplaySelectColor}
+            displaySelectColor={displaySelectColor}
           />
         </div>
       )}

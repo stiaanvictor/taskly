@@ -22,17 +22,16 @@ function FilterModal({ setDisplayFilters, categories, filters, setFilters }) {
       displayOverdue: selectedShowOverdue,
     });
     setDisplayFilters(false);
-
-    console.log(filters.priorityType);
   };
 
   return (
-    <div className="fixed left-0 top-0 z-50 h-screen min-w-full overflow-hidden bg-white px-8 lg:left-1/2 lg:top-1/2 lg:h-auto lg:min-w-[500px] lg:max-w-[500px] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-xl lg:border-[1px] lg:border-borders lg:shadow-xl">
+    <div className="fixed left-0 top-0 z-50 h-screen min-w-full overflow-hidden bg-white px-8 text-black dark:bg-[#1e293b] dark:text-white lg:left-1/2 lg:top-1/2 lg:h-auto lg:min-w-[500px] lg:max-w-[500px] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-xl lg:border-[1px] lg:border-borders lg:shadow-xl dark:lg:border-gray-600">
       <X
         size={38}
         onClick={() => setDisplayFilters(false)}
-        className="absolute right-6 top-6 text-text"
+        className="absolute right-6 top-6 cursor-pointer text-text dark:text-white"
       />
+
       <div className="pt-24 lg:pb-6 lg:pt-16">
         <h1 className="text-xl">Category:</h1>
         <Dropdown setValue={setSelectedCategory} value={selectedCategory}>
@@ -66,7 +65,7 @@ function FilterModal({ setDisplayFilters, categories, filters, setFilters }) {
 
         <button
           onClick={applyFilters}
-          className="mt-6 rounded-md bg-primary px-2 py-1 text-lg text-white"
+          className="mt-6 w-full rounded-md bg-primary px-2 py-1 text-lg text-white hover:brightness-95"
         >
           Apply Filters
         </button>

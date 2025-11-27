@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import { SidebarProvider } from "./context/SidebarContext";
@@ -10,28 +10,92 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import NewTaskPage from "./pages/NewTaskPage";
 import ViewCategoryPage from "./pages/ViewCategoryPage";
+import { UserProvider } from "./context/UserContext";
+import PublicRoute from "./components/PublicRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <SidebarProvider>
-        <ViewTaskProvider>
-          {/* Navigation Bar */}
-          <NavBar />
+    <UserProvider>
+      <BrowserRouter>
+        <SidebarProvider>
+          <ViewTaskProvider>
+            <NavBar />
 
-          {/* Route definitions */}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/calendar" element={<CalendarPage />} />
-            <Route path="/categories" element={<CategoriesPage />} />
-            <Route path="/addcategory" element={<AddCategoryPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/new-task" element={<NewTaskPage />} />
-            <Route path="/category/:id" element={<ViewCategoryPage />} />
-          </Routes>
-        </ViewTaskProvider>
-      </SidebarProvider>
-    </BrowserRouter>
+            <Routes>
+              {/* PUBLIC */}
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <LoginPage />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <PublicRoute>
+                    <SignupPage />
+                  </PublicRoute>
+                }
+              />
+
+              {/* PROTECTED */}
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/calendar"
+                element={
+                  <ProtectedRoute>
+                    <CalendarPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/categories"
+                element={
+                  <ProtectedRoute>
+                    <CategoriesPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/addcategory"
+                element={
+                  <ProtectedRoute>
+                    <AddCategoryPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/new-task"
+                element={
+                  <ProtectedRoute>
+                    <NewTaskPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/category/:id"
+                element={
+                  <ProtectedRoute>
+                    <ViewCategoryPage />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+            <Toaster position="bottom-center" reverseOrder={false} />
+          </ViewTaskProvider>
+        </SidebarProvider>
+      </BrowserRouter>
+    </UserProvider>
   );
 }

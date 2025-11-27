@@ -2,10 +2,13 @@ import { Boxes, Calendar, Layers, X } from "lucide-react";
 import { useSidebar } from "../context/SidebarContext";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
+import LogOutModal from "./LogOutModal";
 
 function MobileSidebar() {
   const { isOpen, closeSidebar } = useSidebar();
   const location = useLocation();
+  const [displayLogOutModal, setDisplayLogoutModal] = useState(false);
 
   return (
     <motion.div
@@ -91,8 +94,17 @@ function MobileSidebar() {
 
         {/* Logout */}
         <div className="flex flex-col items-center">
-          <Link className="text-2xl text-error dark:text-red-400">Log Out</Link>
+          <Link
+            className="text-2xl text-error dark:text-red-400"
+            onClick={() => setDisplayLogoutModal(true)}
+          >
+            Log Out
+          </Link>
         </div>
+
+        {displayLogOutModal && (
+          <LogOutModal setDisplay={setDisplayLogoutModal} />
+        )}
       </div>
     </motion.div>
   );

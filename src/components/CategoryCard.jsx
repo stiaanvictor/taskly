@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function CategoryCard({ categoryId, name, color, tasks }) {
+function CategoryCard({ categoryId, title, color, tasks }) {
   const [completed, setCompleted] = useState(null);
   const [inProgress, setInProgress] = useState(null);
   const [overdue, setOverdue] = useState(null);
@@ -40,7 +40,7 @@ function CategoryCard({ categoryId, name, color, tasks }) {
       onClick={handleClick}
       style={{ background: color }}
     >
-      <h1 className="text-center text-xl text-white">{name}</h1>
+      <h1 className="text-center text-xl text-white">{title}</h1>
       <h2 className="mt-2 text-white">Completed: {completed}</h2>
       <h2 className="text-white">In Progress: {inProgress}</h2>
       <h2 className="text-white">Overdue: {overdue}</h2>

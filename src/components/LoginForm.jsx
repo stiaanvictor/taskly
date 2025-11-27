@@ -1,20 +1,40 @@
-/*
-===========================
-   REMEMBER:
-   USE ZOD FOR VALIDATION
-===========================
-*/
-
 import { Link } from "react-router-dom";
+import {
+  logInWithEmailAndPassword,
+  loginWithGoogle,
+} from "../firebase/user.service";
+import { useState } from "react";
+import { errorMessages } from "../firebase/convertedErrorMessages";
 
 function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  async function handleSubmit() {
+    const errorMessage = await logInWithEmailAndPassword(
+      email.trim().toLowerCase(),
+      password.trim().toLowerCase(),
+    );
+
+    if (errorMessage) {
+      console.log(errorMessage.message);
+      setError(errorMessages[errorMessage.message]);
+    }
+  }
+
+  async function handleGoogleLogin() {
+    console.log("[LoginForm] Google button clicked");
+    await loginWithGoogle(); // triggers redirect
+  }
+
   return (
     <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl">
       <h1 className="mb-6 text-center text-2xl font-semibold text-gray-800">
         Login
       </h1>
 
-      <form className="space-y-5">
+      <div className="space-y-5">
         {/* Email */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
@@ -23,6 +43,8 @@ function LoginForm() {
           <input
             type="email"
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
@@ -34,27 +56,32 @@ function LoginForm() {
           <input
             type="password"
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        {/* Login button */}
         <button
-          type="submit"
           className="w-full rounded-lg bg-primary py-2.5 font-medium text-white transition hover:opacity-90"
+          onClick={handleSubmit}
         >
           Sign In
         </button>
-      </form>
+        {error !== "" && <p className="text-sm text-error">{error}</p>}
+      </div>
 
-      {/* Divider */}
       <div className="my-6 flex items-center">
         <div className="h-px flex-1 bg-gray-200"></div>
         <span className="px-3 text-sm text-gray-500">or</span>
         <div className="h-px flex-1 bg-gray-200"></div>
       </div>
 
-      {/* Google login */}
-      <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 py-2.5 transition hover:bg-gray-50">
+      <button
+        type="button"
+        className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 py-2.5 transition hover:bg-gray-50"
+        onClick={handleGoogleLogin}
+      >
+        {/* SVG unchanged */}
         <svg
           className="h-5 w-5"
           viewBox="0 0 24 24"
@@ -80,6 +107,7 @@ function LoginForm() {
         </svg>
         Continue with Google
       </button>
+
       <p className="mt-4 text-center text-sm text-gray-600">
         Don't have an account?{" "}
         <Link to="/signup" className="font-medium text-primary hover:underline">

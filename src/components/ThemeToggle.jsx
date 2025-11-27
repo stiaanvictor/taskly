@@ -1,17 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
+import { getUserTheme, setUserTheme } from "../firebase/user.service";
+import { useUser } from "../context/UserContext";
 
 function ThemeToggle() {
   const [theme, setTheme] = useState("light");
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (user) {
+      const unsub = getUserTheme(user.uid, (fetchedTheme) => {
+        setTheme(fetchedTheme);
+      });
+
+      return () => unsub(); // cleanup listener
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (theme == "light") {
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+    }
+  }, [theme]);
 
   const activeLightMode = () => {
-    setTheme("light");
-    document.documentElement.classList.remove("dark");
+    setUserTheme(user.uid, "light");
   };
 
   const activeDarkMode = () => {
-    setTheme("dark");
-    document.documentElement.classList.add("dark");
+    setUserTheme(user.uid, "dark");
   };
 
   if (theme == "dark") {

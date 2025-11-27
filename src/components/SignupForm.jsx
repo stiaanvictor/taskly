@@ -1,13 +1,58 @@
 import { Link } from "react-router-dom";
+import { loginWithGoogle, signUpWithEmail } from "../firebase/user.service";
+import { useState } from "react";
+import * as yup from "yup";
 
 function SignupForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const schema = yup.object({
+    name: yup
+      .string()
+      .matches(/^[A-Za-z\s]+$/, "Name cannot contain numbers")
+      .min(3, "Name must be at least 3 characters")
+      .required("Name is required"),
+
+    email: yup.string().email("Invalid email").required("Email is required"),
+
+    password: yup
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .required("Password is required"),
+  });
+
+  async function handleSubmit(e) {
+    try {
+      await schema.validate({ name, email, password }, { abortEarly: false });
+      setErrors({});
+      await signUpWithEmail(
+        email.trim().toLowerCase(),
+        password.trim().toLowerCase(),
+        name.trim().toLowerCase(),
+      );
+    } catch (err) {
+      const formatted = {};
+      err.inner.forEach((e) => {
+        formatted[e.path] = e.message;
+      });
+      setErrors(formatted);
+    }
+  }
+  async function handleGoogleLogin() {
+    console.log("[LoginForm] Google button clicked");
+    await loginWithGoogle(); // triggers redirect
+  }
+
   return (
     <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl">
       <h1 className="mb-6 text-center text-2xl font-semibold text-gray-800">
         Sign Up
       </h1>
 
-      <form className="space-y-5">
+      <div className="space-y-5">
         {/* Name */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
@@ -16,7 +61,10 @@ function SignupForm() {
           <input
             type="text"
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
+          <p className="text-sm text-error">{errors.name && errors.name}</p>
         </div>
 
         {/* Email */}
@@ -27,7 +75,10 @@ function SignupForm() {
           <input
             type="email"
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
+          <p className="text-sm text-error">{errors.email && errors.email}</p>
         </div>
 
         {/* Password */}
@@ -38,17 +89,23 @@ function SignupForm() {
           <input
             type="password"
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
+          <p className="text-sm text-error">
+            {errors.password && errors.password}
+          </p>
         </div>
 
         {/* Create account */}
         <button
           type="submit"
           className="w-full rounded-lg bg-primary py-2.5 font-medium text-white transition hover:opacity-90"
+          onClick={handleSubmit}
         >
           Create Account
         </button>
-      </form>
+      </div>
 
       {/* Divider */}
       <div className="my-6 flex items-center">
@@ -58,7 +115,10 @@ function SignupForm() {
       </div>
 
       {/* Google sign up */}
-      <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 py-2.5 transition hover:bg-gray-50">
+      <button
+        className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 py-2.5 transition hover:bg-gray-50"
+        onClick={handleGoogleLogin}
+      >
         <svg
           className="h-5 w-5"
           viewBox="0 0 24 24"
