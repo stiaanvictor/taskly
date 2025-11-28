@@ -3,109 +3,33 @@ import { motion } from "framer-motion";
 import { useViewTask } from "../context/ViewTaskContext";
 import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
+import {
+  deleteTask,
+  setTaskDone,
+  setTaskIncomplete,
+  updateTask,
+} from "../firebase/task.service";
+import toast from "react-hot-toast";
+import { formatDateForInput } from "../helpers/formatDate";
+import DeleteModal from "./DeleteModal";
 
-function ViewTask() {
+function ViewTask({ tasks, categories }) {
   const { isOpen, closeTask, taskId } = useViewTask();
-  const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
   const titleRef = useRef(null);
+  const [error, setError] = useState("");
+  const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
 
   useEffect(() => {
-    const dummyTasks = [
-      {
-        id: 1,
-        title: "Buy groceries",
-        description: "Pick up milk, eggs, and bread from the store.",
-        dueDate: "2025-11-07",
-        done: false,
-        priority: "none",
-        categoryId: 1,
-      },
-      {
-        id: 2,
-        title: "Finish project report",
-        description: "Complete and review the final report before submission.",
-        dueDate: "2025-11-11",
-        done: false,
-        priority: "important",
-        categoryId: 2,
-      },
-      {
-        id: 3,
-        title: "Call plumber",
-        description: "Fix the kitchen sink leak.",
-        dueDate: "2025-11-11",
-        done: true,
-        priority: "none",
-        categoryId: 1,
-      },
-      {
-        id: 4,
-        title: "Team meeting",
-        description: "Discuss project progress.",
-        dueDate: "2025-11-15",
-        done: false,
-        priority: "important",
-        categoryId: 2,
-      },
-      {
-        id: 5,
-        title: "Doctor appt",
-        description: "Routine checkup.",
-        dueDate: "2025-11-15",
-        done: true,
-        priority: "none",
-        categoryId: 3,
-      },
-      {
-        id: 6,
-        title: "Submit taxes",
-        description: "Upload forms.",
-        dueDate: "2025-11-24",
-        done: false,
-        priority: "important",
-        categoryId: 4,
-      },
-      {
-        id: 7,
-        title: "Clean garage",
-        description: "Organize tools.",
-        dueDate: "2025-11-24",
-        done: true,
-        priority: "none",
-        categoryId: 1,
-      },
-      {
-        id: 8,
-        title: "Read book",
-        description: "Start reading.",
-        dueDate: "2025-12-01",
-        done: false,
-        priority: "none",
-        categoryId: 1,
-      },
-      {
-        id: 9,
-        title: "HI",
-        description: "hello?",
-        dueDate: "2025-12-04",
-        done: false,
-        priority: "important",
-        categoryId: 4,
-      },
-    ];
-
-    setTasks(dummyTasks);
-  }, []);
-
-  useEffect(() => {
-    if (tasks.length > 0 && taskId) {
-      const found = tasks.find((obj) => obj.id === taskId);
-      setTask(found || null);
-      setEditData(found ? { ...found } : {});
-      setIsEditing(false);
+    if (tasks) {
+      if (tasks.length > 0 && taskId) {
+        const found = tasks.find((obj) => obj.id === taskId);
+        setTask(found || null);
+        setEditData(found ? { ...found } : {});
+        setIsEditing(false);
+      }
     }
   }, [taskId, tasks]);
 
@@ -116,12 +40,62 @@ function ViewTask() {
     }
   }, [isEditing]);
 
-  const handleEditChange = () => {};
-  const handleSave = () => {};
-  const handleCancel = () => {};
-  const handleMarkDone = () => {};
-  const handleMarkIncomplete = () => {};
-  const handleDelete = () => {};
+  const handleEditChange = (field, value) => {
+    setEditData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleSave = () => {
+    if (editData.title.length < 1) {
+      setError("Please enter a title");
+      return;
+    }
+
+    if (editData.description.length < 1) {
+      setError("Please enter a description");
+      return;
+    }
+
+    updateTask(
+      task.id,
+      editData.title,
+      editData.description,
+      editData.priority,
+      editData.dueDate,
+      editData.categoryId,
+    );
+
+    setIsEditing(false);
+    toast.success("Task updated successfully!");
+    setError("");
+    return;
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  const handleMarkDone = () => {
+    setTaskDone(task.id);
+  };
+
+  const handleMarkIncomplete = () => {
+    setTaskIncomplete(task.id);
+  };
+
+  const handleDelete = () => {
+    deleteTask(task.id);
+
+    closeTask();
+
+    toast.success("Task deleted successfully");
+  };
+
+  const toggleDeleteModal = () => {
+    setDisplayDeleteModal(true);
+  };
 
   const isOverdue = (d) => new Date(d) < new Date() && !task?.done;
 
@@ -218,6 +192,32 @@ function ViewTask() {
               )}
             </p>
 
+            {/* CATEGORY FIELD */}
+            <p className="text-base font-medium text-gray-700 dark:text-gray-300">
+              Category{" "}
+              {isEditing ? (
+                <select
+                  value={editData.categoryId || ""}
+                  onChange={(e) =>
+                    handleEditChange("categoryId", e.target.value)
+                  }
+                  className="ml-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 outline-none focus:ring-2 focus:ring-primary dark:border-gray-600 dark:bg-[#0f172a] dark:text-white"
+                >
+                  <option value="">Select category</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.title}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <span className="ml-2 font-semibold">
+                  {categories.find((c) => c.id === task.categoryId)?.title ||
+                    "No category"}
+                </span>
+              )}
+            </p>
+
             {/* Due */}
             <div className="flex items-center gap-2 text-base font-medium text-gray-700 dark:text-gray-300">
               <Calendar
@@ -228,7 +228,9 @@ function ViewTask() {
               {isEditing ? (
                 <input
                   type="date"
-                  value={editData.dueDate || ""}
+                  value={
+                    editData.dueDate ? formatDateForInput(editData.dueDate) : ""
+                  }
                   onChange={(e) => handleEditChange("dueDate", e.target.value)}
                   className="ml-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 outline-none focus:ring-2 focus:ring-primary dark:border-gray-600 dark:bg-[#0f172a] dark:text-white"
                 />
@@ -238,6 +240,8 @@ function ViewTask() {
                 </span>
               )}
             </div>
+
+            {error && <p className="text-sm text-error">{error}</p>}
           </div>
 
           {/* Action Buttons */}
@@ -283,13 +287,13 @@ function ViewTask() {
                     setIsEditing(true);
                     setEditData({ ...task });
                   }}
-                  className="w-full rounded-2xl border border-primary py-3 font-semibold text-primary transition hover:bg-attention hover:text-white dark:border-blue-300 dark:text-blue-300"
+                  className="w-full rounded-2xl border border-primary py-3 font-semibold text-primary transition hover:bg-primary hover:text-white dark:border-blue-300 dark:text-blue-300"
                 >
                   Edit
                 </button>
 
                 <button
-                  onClick={handleDelete}
+                  onClick={toggleDeleteModal}
                   className="w-full rounded-2xl border border-error py-3 font-semibold text-error transition hover:bg-error hover:text-white dark:border-red-400 dark:text-red-400"
                 >
                   Delete
@@ -297,6 +301,13 @@ function ViewTask() {
               </>
             )}
           </div>
+
+          {displayDeleteModal && (
+            <DeleteModal
+              setDisplay={setDisplayDeleteModal}
+              deleteFunction={handleDelete}
+            />
+          )}
         </div>
       )}
     </motion.div>

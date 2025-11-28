@@ -28,7 +28,6 @@ function TasksForCategorySection({ categoryId, categories }) {
 
     getTasksForCategory(categoryId, (tasks) => {
       setTasksForCategory(tasks);
-      console.log(tasksForCategory);
     });
   }, [categories, categoryId]);
 
@@ -172,7 +171,7 @@ function TasksForCategorySection({ categoryId, categories }) {
           </div>
         )}
 
-        <ViewTask />
+        <ViewTask tasks={tasksForCategory} categories={categories} />
       </div>
     </div>
   );

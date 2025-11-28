@@ -41,7 +41,7 @@ function TasksForDateSection({ date, tasks, categories }) {
         />
       ))}
 
-      <ViewTask />
+      <ViewTask tasks={tasks} categories={categories} />
     </div>
   );
 }

@@ -1,10 +1,12 @@
 import { Menu } from "lucide-react";
 import LeftSidebar from "../components/LeftSidebar";
 import { useSidebar } from "../context/SidebarContext";
-
 import MainCalendar from "../components/MainCalendar";
 import { useEffect, useState } from "react";
 import TasksForDateSection from "../components/TasksForDateSection";
+import { getUserCategories } from "../firebase/category.service";
+import { getTasksForUser } from "../firebase/task.service";
+import { useUser } from "../context/UserContext";
 
 function CalendarPage() {
   const { openSidebar } = useSidebar();
@@ -12,101 +14,17 @@ function CalendarPage() {
   const [tasks, setTasks] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  const { user } = useUser();
+
   useEffect(() => {
-    const dummyCategories = [
-      { id: 1, name: "Personal", color: "#4CAF50" },
-      { id: 2, name: "Work", color: "#2196F3" },
-      { id: 3, name: "Health", color: "#E91E63" },
-      { id: 4, name: "Finance", color: "#FF9800" },
-    ];
+    getUserCategories(user.uid, (fetchedCategories) => {
+      setCategories(fetchedCategories);
+    });
 
-    const dummyTasks = [
-      {
-        id: 1,
-        title: "Buy groceries",
-        description: "Pick up milk, eggs, and bread from the store.",
-        dueDate: "2025-11-07",
-        done: false,
-        priority: "none",
-        categoryId: 1,
-      },
-      {
-        id: 2,
-        title: "Finish project report",
-        description: "Complete and review the final report.",
-        dueDate: "2025-11-11",
-        done: false,
-        priority: "important",
-        categoryId: 2,
-      },
-      {
-        id: 3,
-        title: "Call plumber",
-        description: "Fix the kitchen sink leak.",
-        dueDate: "2025-11-11",
-        done: true,
-        priority: "none",
-        categoryId: 1,
-      },
-      {
-        id: 4,
-        title: "Team meeting",
-        description: "Discuss project updates.",
-        dueDate: "2025-11-15",
-        done: false,
-        priority: "important",
-        categoryId: 2,
-      },
-      {
-        id: 5,
-        title: "Doctor appointment",
-        description: "Routine checkup.",
-        dueDate: "2025-11-15",
-        done: true,
-        priority: "none",
-        categoryId: 3,
-      },
-      {
-        id: 6,
-        title: "Submit tax documents",
-        description: "Upload all necessary files.",
-        dueDate: "2025-11-24",
-        done: false,
-        priority: "important",
-        categoryId: 4,
-      },
-      {
-        id: 7,
-        title: "Clean garage",
-        description: "Organize tools.",
-        dueDate: "2025-11-24",
-        done: true,
-        priority: "none",
-        categoryId: 1,
-      },
-      {
-        id: 8,
-        title: "Read new book",
-        description: "Start reading the new book.",
-        dueDate: "2025-12-01",
-        done: false,
-        priority: "none",
-        categoryId: 1,
-      },
-      {
-        id: 9,
-        title: "HI",
-        description: "hello?",
-        dueDate: "2025-12-04",
-        done: false,
-        priority: "important",
-        categoryId: 4,
-      },
-    ];
-
-    setCategories(dummyCategories);
-    setTasks(dummyTasks);
-  }, []);
+    getTasksForUser(user.uid, (fetchedTasks) => {
+      setTasks(fetchedTasks);
+    });
+  }, [user]);
 
   return (
     <div className="min-h-dvh bg-gray-100 px-3 py-5 pb-32 dark:bg-[#0a0f1c] lg:mt-16 lg:py-3 lg:pl-48">

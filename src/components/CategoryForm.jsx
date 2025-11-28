@@ -33,7 +33,7 @@ function CategoryForm({
   return (
     <div className="lg:flex lg:justify-center lg:pt-16">
       <div className="mt-6 flex flex-col rounded-xl bg-white px-5 py-6 text-black shadow-lg dark:bg-[#1e293b] dark:text-white lg:min-w-[40rem] lg:max-w-[40rem]">
-        <h1 className="text-2xl text-text">Create Category:</h1>
+        <h1 className="text-2xl text-text dark:text-white">Create Category:</h1>
         {/* Title Input */}
         <input
           type="text"

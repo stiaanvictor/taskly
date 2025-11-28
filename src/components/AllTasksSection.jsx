@@ -3,6 +3,7 @@ import DaySection from "./DaySection";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
 import FilterModal from "./FilterModal";
+import NoTasksFound from "./NoTasksFound";
 
 const defaultFilters = {
   categoryId: "all",
@@ -71,7 +72,9 @@ function AllTasksSection({ tasks, categories }) {
             }
           })
         ) : (
-          <Loading />
+          <div className="my-4">
+            <NoTasksFound />
+          </div>
         )}
 
         {tasks.filter((task) => isPastDate(task.dueDate)).length > 0 &&
@@ -81,26 +84,24 @@ function AllTasksSection({ tasks, categories }) {
             </h1>
           )}
 
-        {dates.length > 0 ? (
-          dates.map((date) => {
-            if (!isPastDate(date)) {
-              const tasksForDate = tasks.filter(
-                (task) => task.dueDate === date,
-              );
-              return (
-                <DaySection
-                  key={date}
-                  date={date}
-                  tasks={tasksForDate}
-                  categories={categories}
-                  filters={filters}
-                />
-              );
-            }
-          })
-        ) : (
-          <Loading />
-        )}
+        {dates.length > 0
+          ? dates.map((date) => {
+              if (!isPastDate(date)) {
+                const tasksForDate = tasks.filter(
+                  (task) => task.dueDate === date,
+                );
+                return (
+                  <DaySection
+                    key={date}
+                    date={date}
+                    tasks={tasksForDate}
+                    categories={categories}
+                    filters={filters}
+                  />
+                );
+              }
+            })
+          : ""}
       </div>
     </div>
   );
