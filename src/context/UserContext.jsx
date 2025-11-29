@@ -3,6 +3,7 @@ import {
   createUserIfNotExists,
   onUserStateChanged,
 } from "../firebase/user.service";
+import { auth, getRedirectResult } from "../firebase/firebaseconfig";
 
 const UserContext = createContext(null);
 
@@ -11,6 +12,14 @@ export function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getRedirectResult(auth).then(async (result) => {
+      if (result && result.user) {
+        setUser(result.user);
+        await createUserIfNotExists(result.user.uid);
+        setLoading(false);
+      }
+    });
+
     const unsubscribe = onUserStateChanged(async (firebaseUser) => {
       setUser(firebaseUser ?? null);
 

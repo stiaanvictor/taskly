@@ -36,6 +36,11 @@ function NewTaskForm({ categories }) {
       return;
     }
 
+    if (editData.category === "") {
+      setError("Go to category page to create a category");
+      return;
+    }
+
     await createTask(
       editData.title,
       editData.description,

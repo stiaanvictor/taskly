@@ -16,6 +16,7 @@ import {
   updateProfile,
   signInWithEmailAndPassword,
   signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 
 export async function signUpWithEmail(email, password, name) {
@@ -46,21 +47,6 @@ export async function logInWithEmailAndPassword(email, password) {
 }
 
 export async function loginWithGoogle() {
-  const isLocal =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
-  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-
-  if (!isLocal && isMobile) {
-    await signInWithRedirect(auth, googleProvider);
-    return;
-  }
-
-  if (!isLocal) {
-    await signInWithRedirect(auth, googleProvider);
-    return;
-  }
-
   const result = await signInWithPopup(auth, googleProvider);
   return result.user;
 }

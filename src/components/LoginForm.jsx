@@ -23,11 +23,6 @@ function LoginForm() {
     }
   }
 
-  async function handleGoogleLogin() {
-    console.log("[LoginForm] Google button clicked");
-    await loginWithGoogle(); // triggers redirect
-  }
-
   return (
     <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl">
       <h1 className="mb-6 text-center text-2xl font-semibold text-gray-800">
@@ -79,7 +74,7 @@ function LoginForm() {
       <button
         type="button"
         className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 py-2.5 transition hover:bg-gray-50"
-        onClick={handleGoogleLogin}
+        onClick={loginWithGoogle}
       >
         {/* SVG unchanged */}
         <svg
