@@ -1,12 +1,9 @@
 import {
   addDoc,
   collection,
-  doc,
-  getDoc,
   getDocs,
   onSnapshot,
   query,
-  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -18,16 +15,11 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
+  signInWithRedirect,
 } from "firebase/auth";
 
-/////////////////////////////////////////////////////////
-//////////////////// Authentication /////////////////////
-/////////////////////////////////////////////////////////
-
-// Email and Password Signin
 export async function signUpWithEmail(email, password, name) {
   try {
-    // Create the auth user
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -35,14 +27,12 @@ export async function signUpWithEmail(email, password, name) {
     );
     const user = userCredential.user;
 
-    // Update the displayName in Firebase Auth
     await updateProfile(user, {
       displayName: name,
     });
 
     return user;
   } catch (error) {
-    console.error("Signup error:", error);
     throw error;
   }
 }
@@ -55,13 +45,26 @@ export async function logInWithEmailAndPassword(email, password) {
   }
 }
 
-// Google Sign-In
 export async function loginWithGoogle() {
+  const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+  if (!isLocal && isMobile) {
+    await signInWithRedirect(auth, googleProvider);
+    return;
+  }
+
+  if (!isLocal) {
+    await signInWithRedirect(auth, googleProvider);
+    return;
+  }
+
   const result = await signInWithPopup(auth, googleProvider);
-  return result.user; // Firebase user
+  return result.user;
 }
 
-// Subscribe to auth changes (used in context)
 export function onUserStateChanged(callback) {
   return onAuthStateChanged(auth, callback);
 }
@@ -80,19 +83,13 @@ export async function createUserIfNotExists(userId) {
   }
 }
 
-// Logout
 export async function logoutUser() {
   return await signOut(auth);
 }
 
-/////////////////////////////////////////////////////////
-/////////////////////     THEME     /////////////////////
-/////////////////////////////////////////////////////////
-
 export function getUserTheme(userId, callback) {
   const q = query(collection(db, "settings"), where("userId", "==", userId));
 
-  // Real-time updates
   const unsubscribe = onSnapshot(q, (snapshot) => {
     if (!snapshot.empty) {
       const doc = snapshot.docs[0];

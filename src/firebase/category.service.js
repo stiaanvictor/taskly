@@ -1,12 +1,16 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   onSnapshot,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "./firebaseconfig";
+import { deleteTasksByCategory } from "./task.service";
 
 export async function createCategory(userId, title, color) {
   try {
@@ -36,4 +40,19 @@ export async function getUserCategories(userId, callback) {
   });
 
   return unsubscribe;
+}
+
+export async function updateCategory(categoryId, title, color) {
+  const taskRef = doc(db, "categories", categoryId);
+
+  await updateDoc(taskRef, {
+    title: title,
+    color: color,
+  });
+}
+
+export async function deleteCategory(categoryId) {
+  await deleteTasksByCategory(categoryId);
+
+  await deleteDoc(doc(db, "categories", categoryId));
 }

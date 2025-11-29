@@ -5,6 +5,10 @@ import DaySection from "./DaySection";
 import { Check, Edit, Pencil } from "lucide-react";
 import ColorSelectorModal from "./ColorSelectorModal";
 import { getTasksForCategory } from "../firebase/task.service";
+import { deleteCategory, updateCategory } from "../firebase/category.service";
+import DeleteModal from "./DeleteModal";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const defaultFilters = {
   categoryId: "all",
@@ -22,6 +26,9 @@ function TasksForCategorySection({ categoryId, categories }) {
   const titleRef = useRef(null);
   const [displaySelectColor, setDisplaySelectColor] = useState(false);
   const [selectedColor, setSelectedColor] = useState("");
+  const [error, setError] = useState("");
+  const [displayDeleteModal, setDisplayDeleteModal] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCategory(categories.find((category) => category.id === categoryId));
@@ -55,11 +62,30 @@ function TasksForCategorySection({ categoryId, categories }) {
   };
 
   const handleConfirm = () => {
+    console.log(titleEdit, selectedColor);
+
+    if (titleEdit.length < 1) {
+      setError("Please enter a title");
+      return;
+    }
+
+    updateCategory(categoryId, titleEdit, selectedColor);
+    setError("");
     setEditing(false);
   };
 
   const colorClicked = () => {
     setDisplaySelectColor(!displaySelectColor);
+  };
+
+  const handleDeleteClicked = () => {
+    setDisplayDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    await deleteCategory(categoryId);
+    navigate("/");
+    toast.success("Category deleted successfully!");
   };
 
   return (
@@ -76,12 +102,15 @@ function TasksForCategorySection({ categoryId, categories }) {
             )}
 
             {editing ? (
-              <input
-                ref={titleRef}
-                className="w-60 rounded-lg border-2 border-borders bg-white pl-2 text-3xl text-primary dark:border-gray-600 dark:bg-[#0f172a] dark:text-blue-300"
-                value={titleEdit}
-                onChange={(e) => setTitleEdit(e.target.value)}
-              />
+              <div>
+                <input
+                  ref={titleRef}
+                  className="w-60 rounded-lg border-2 border-borders bg-white pl-2 text-3xl text-primary dark:border-gray-600 dark:bg-[#0f172a] dark:text-blue-300"
+                  value={titleEdit}
+                  onChange={(e) => setTitleEdit(e.target.value)}
+                />
+                {error && <p className="text-sm text-error">{error}</p>}
+              </div>
             ) : (
               <h1 className="text-3xl text-primary dark:text-blue-300">
                 {category.title}
@@ -160,6 +189,14 @@ function TasksForCategorySection({ categoryId, categories }) {
             </h1>
           )}
         </div>
+        <div className="mt-16 flex w-full justify-center">
+          <button
+            className="text-md rounded-md bg-error px-3 py-1 text-center text-white"
+            onClick={handleDeleteClicked}
+          >
+            Delete Category
+          </button>
+        </div>
 
         {displaySelectColor && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center">
@@ -173,6 +210,14 @@ function TasksForCategorySection({ categoryId, categories }) {
 
         <ViewTask tasks={tasksForCategory} categories={categories} />
       </div>
+
+      {displayDeleteModal && (
+        <DeleteModal
+          text="Are you sure you want to delete this category?"
+          setDisplay={setDisplayDeleteModal}
+          deleteFunction={handleDelete}
+        />
+      )}
     </div>
   );
 }

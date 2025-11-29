@@ -70,6 +70,7 @@ function ViewTask({ tasks, categories }) {
     setIsEditing(false);
     toast.success("Task updated successfully!");
     setError("");
+    closeTask();
     return;
   };
 
@@ -304,6 +305,7 @@ function ViewTask({ tasks, categories }) {
 
           {displayDeleteModal && (
             <DeleteModal
+              text="Are you sure you want to delete this task?"
               setDisplay={setDisplayDeleteModal}
               deleteFunction={handleDelete}
             />

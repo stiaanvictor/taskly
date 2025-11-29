@@ -15,13 +15,13 @@ export default {
         borders: "#E5E7EB",
         disabled: "#6b6b6b",
 
-        /* 🌙 Dark Mode Colors */
+        /* Dark Mode Colors */
         dark: {
-          primary: "#1E3A8A", // deep blue
-          background: "#0A0F1C", // almost-black blue
-          surface: "#111827", // slate-900
-          text: "#fff", // gray-200
-          borders: "#1F2937", // dark borders
+          primary: "#1E3A8A",
+          background: "#0A0F1C",
+          surface: "#111827",
+          text: "#fff",
+          borders: "#1F2937",
         },
       },
     },

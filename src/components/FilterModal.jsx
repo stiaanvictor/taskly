@@ -38,7 +38,7 @@ function FilterModal({ setDisplayFilters, categories, filters, setFilters }) {
           <option value="all">All</option>
           {categories.map((category) => (
             <option value={category.id} key={category.id}>
-              {category.name}
+              {category.title}
             </option>
           ))}
         </Dropdown>

@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   query,
   updateDoc,
@@ -118,4 +119,19 @@ export async function deleteTask(taskId) {
   } catch {
     console.log("Error deleting task");
   }
+}
+
+export async function deleteTasksByCategory(categoryId) {
+  const q = query(
+    collection(db, "tasks"),
+    where("categoryId", "==", categoryId),
+  );
+
+  const snapshot = await getDocs(q);
+
+  const deletions = snapshot.docs.map((taskDoc) =>
+    deleteDoc(doc(db, "tasks", taskDoc.id)),
+  );
+
+  await Promise.all(deletions);
 }

@@ -56,7 +56,7 @@ function AllTasksSection({ tasks, categories }) {
 
         {dates.length > 0 ? (
           dates.map((date) => {
-            if (isPastDate(date) && filters.displayOverdue) {
+            if (isPastDate(date) && filters.displayOverdue == "yes") {
               const tasksForDate = tasks.filter(
                 (task) => task.dueDate === date,
               );
