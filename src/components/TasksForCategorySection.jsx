@@ -84,7 +84,7 @@ function TasksForCategorySection({ categoryId, categories }) {
 
   const handleDelete = async () => {
     await deleteCategory(categoryId);
-    navigate("/");
+    navigate("/categories");
     toast.success("Category deleted successfully!");
   };
 
