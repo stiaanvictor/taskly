@@ -6,7 +6,7 @@ import LeftSidebar from "../components/LeftSidebar";
 import { useSidebar } from "../context/SidebarContext";
 import { useUser } from "../context/UserContext";
 import { getUserCategories } from "../firebase/category.service";
-import FloatingNewTaskButton from "../components/FloatingNewTaskButton";
+import FloatingNewTaskButtonForCategoryButton from "../components/FloatingNewTaskForCategoryButton";
 
 function ViewCategoryPage() {
   const { id } = useParams();
@@ -34,7 +34,7 @@ function ViewCategoryPage() {
         <TasksForCategorySection categoryId={id} categories={categories} />
       </div>
 
-      <FloatingNewTaskButton />
+      <FloatingNewTaskButtonForCategoryButton categoryId={id} />
     </div>
   );
 }

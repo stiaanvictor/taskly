@@ -5,9 +5,11 @@ import { useSidebar } from "../context/SidebarContext";
 import { useUser } from "../context/UserContext";
 import { getUserCategories } from "../firebase/category.service";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 function NewTaskPage() {
   const [categories, setCategories] = useState([]);
+  const { categoryId } = useParams();
 
   const { openSidebar } = useSidebar();
   const { user } = useUser();
@@ -29,7 +31,7 @@ function NewTaskPage() {
       <LeftSidebar />
 
       <div className="mt-4">
-        <NewTaskForm categories={categories} />
+        <NewTaskForm categories={categories} categoryId={categoryId} />
       </div>
     </div>
   );

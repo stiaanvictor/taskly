@@ -76,7 +76,15 @@ export default function App() {
                 }
               />
               <Route
-                path="/new-task"
+                path="/new-task/"
+                element={
+                  <ProtectedRoute>
+                    <NewTaskPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/new-task/:categoryId"
                 element={
                   <ProtectedRoute>
                     <NewTaskPage />
